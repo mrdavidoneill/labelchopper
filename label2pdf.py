@@ -12,7 +12,7 @@ class Label:
             raise IOError("Cannot find file")
         self.target_w = target_w * 72
         self.target_h = target_h * 72
-        self.name = ("").join(os.path.basename(path).split(".")[0:-1])
+        self.name = "".join(os.path.basename(path).split(".")[0:-1])
         self.path = path
         self.pdf = PdfFileReader(str(path))
         self.pages = self.get_pages()
@@ -45,42 +45,48 @@ class Label:
 
     def process_page(self, page):
         X,Y,W,H = 0,1,2,3
-        label_coordinates = (float(page.mediaBox.upperRight[X]) * 0.045,
-                             float(page.mediaBox.upperRight[Y]) * 0.09,
-                             float(page.mediaBox.upperRight[X]) * 0.825,
-                             float(page.mediaBox.upperRight[Y]) * 0.46)
-        fba_coordinates = (float(page.mediaBox.upperRight[X]) * 0.02,
-                           float(page.mediaBox.upperRight[Y]) * 0.51,
-                           float(page.mediaBox.upperRight[X]) * 0.39,
-                           float(page.mediaBox.upperRight[Y]) * 0.94)
-        self.output.append(self.extract_object(page, label_coordinates, rotation=90, scale="UPS"))
-        self.output.append(self.extract_object(page, fba_coordinates, scale="FBA"))
 
+        UPS = {"coordinates": (float(page.mediaBox.upperRight[X]) * 0.045,
+                               float(page.mediaBox.upperRight[Y]) * 0.09,
+                               float(page.mediaBox.upperRight[X]) * 0.825,
+                               float(page.mediaBox.upperRight[Y]) * 0.46),
+               "rotation": 90}
+        FBA = {"coordinates": (float(page.mediaBox.upperRight[X]) * 0.02,
+                               float(page.mediaBox.upperRight[Y]) * 0.51,
+                               float(page.mediaBox.upperRight[X]) * 0.39,
+                               float(page.mediaBox.upperRight[Y]) * 0.94),
+               "rotation": 0}
+        self.output.append(self.extract_object(page, UPS))
+        self.output.append(self.extract_object(page, FBA))
 
-    def extract_object(self, page, coordinates, rotation=None, scale=None):
-        X,Y,W,H = 0,1,2,3
+    def extract_object(self, page, obj):
+        L, B, R, T = 0, 1, 2, 3
+        page = dill.copy(page)
+        ROTATION = obj["rotation"]
+        LEFT = obj["coordinates"][L]
+        BOTTOM = obj["coordinates"][B]
+        RIGHT = obj["coordinates"][R]
+        TOP = obj["coordinates"][T]
+        WIDTH = RIGHT - LEFT
+        HEIGHT = TOP - BOTTOM
 
-        obj = dill.copy(page)
-        obj.mediaBox.lowerLeft = (coordinates[X], coordinates[Y])
-        obj.mediaBox.upperRight = (coordinates[W], coordinates[H])
-        if rotation:
-            obj.rotateClockwise(rotation)
+        if ROTATION != 0:
+            target_w = self.target_h
+            target_h = self.target_w
+        else:
+            target_h = self.target_h
+            target_w = self.target_w
 
-        if scale:
-            if rotation:
-                target_w = self.target_h
-                target_h = self.target_w
-            else:
-                target_h = self.target_h
-                target_w = self.target_w
+        factor = min((target_h / HEIGHT), (target_w / WIDTH), key=abs)
+        page.scaleBy(factor)
 
-            w = float(obj.mediaBox.getWidth())
-            h = float(obj.mediaBox.getHeight())
-            factor = min((target_h / h), (target_w / w), key=abs)
+        new_page = PageObject.createBlankPage(width=target_w, height=target_h)
+        new_page.mergeTranslatedPage(page2=page, tx=-LEFT * factor, ty=-BOTTOM * factor)
 
-            obj.scaleBy(factor)
+        if ROTATION != 0:
+            new_page.rotateClockwise(ROTATION)
 
-        return obj
+        return new_page
 
     def write_pdf(self):
         pdf_writer = PdfFileWriter()
@@ -89,8 +95,6 @@ class Label:
         pdf_writer.addMetadata(metadata)
 
         for page in self.output:
-            # new_page = PageObject.createBlankPage(width=self.target_w, height=self.target_h)
-            # new_page.mergePage(page)
             pdf_writer.addPage(page)
 
         with open(self.output_path, "wb") as output_file:
