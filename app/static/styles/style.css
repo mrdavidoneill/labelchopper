@@ -11,6 +11,7 @@ html,
 body {
   box-sizing: border-box;
   width: 100%;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   font-size: 3vw;
@@ -57,19 +58,6 @@ body {
 
 button.plain {
   font-family: inherit;
-  font-size: 100%;
-  line-height: 1.15;
-  margin: 0;
-  overflow: visible;
-  text-transform: none;
-  -webkit-appearance: button;
-  background: transparent;
-  border: none;
-  outline: none;
-}
-
-button.plain {
-  font-family: inherit;
   font-size: 1.25em;
   line-height: 1;
   margin: 0;
@@ -94,6 +82,11 @@ button.plain:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 
+button.plain.outline {
+  border: 2px solid var(--primary-color);
+  border-radius: 0.2em;
+}
+
 .drop-container {
   background-color: var(--primary-color) !important;
   width: 100%;
@@ -111,6 +104,12 @@ button.plain:focus {
   background-color: white !important;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.navbar-expand-lg {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .container-fluid {
@@ -200,14 +199,16 @@ button.plain:focus {
 }
 
 .faq-container {
-  padding: 0.5em;
+  margin: auto;
+  padding: 1.5em;
+  width: 80%;
 }
 
 .faq-container p.lead {
   font-size: 1.5em;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 1000px) {
   .faq-container {
     padding: 1em 5em;
   }
@@ -233,8 +234,34 @@ button.plain:focus {
   width: 2em;
   text-align: center;
   padding: 0.2em;
+  font-size: 1.5em;
 }
 
 .border {
   border: 2 solid var(--primary-color);
+}
+
+@media (min-width: 600px) {
+  .modal-dialog {
+    max-width: 50%;
+    margin: 1.75rem auto;
+  }
+}
+
+.modal {
+  font-size: 1em;
+}
+.modal-header .close {
+  padding: 0.5em;
+}
+.form-control {
+  font-size: 1em;
+}
+
+.btn-block {
+  font-size: 1em;
+}
+
+.modal-content {
+  max-width: 90%;
 }
