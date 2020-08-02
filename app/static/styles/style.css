@@ -109,6 +109,8 @@ button.plain:focus {
 
 .navbar {
   background-color: white !important;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .container-fluid {
@@ -123,6 +125,10 @@ button.plain:focus {
   background-color: white;
 }
 
+.about h6 {
+  font-size: 2em;
+}
+
 .sitemap {
   width: 100%;
   padding: 1em;
@@ -131,8 +137,14 @@ button.plain:focus {
   color: var(--ondarksubtle);
 }
 
+.sitemap h6 {
+  font-size: 1.5em;
+  margin-bottom: 0.2em;
+}
+
 .sitemap a.nav-link {
   padding: 0.2em;
+  color: var(--ondarksubtle);
 }
 
 .about:after {
@@ -156,6 +168,7 @@ button.plain:focus {
   text-align: center;
   color: #fff;
   position: relative;
+  font-size: 1.5em;
 }
 
 .flickright:before {
@@ -190,10 +203,18 @@ button.plain:focus {
   padding: 0.5em;
 }
 
+.faq-container p.lead {
+  font-size: 1.5em;
+}
+
 @media only screen and (min-width: 600px) {
   .faq-container {
     padding: 1em 5em;
   }
+}
+
+.how-container {
+  padding-bottom: 5vh;
 }
 
 .donate-container {
