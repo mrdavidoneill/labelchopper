@@ -2,9 +2,6 @@ import os
 from app import environmentvariables
 
 environmentvariables.load()
-print(os.getcwd())
-print(os.environ.get('SECRET_KEY'))
-
 
 from app import app, db
 from app.models import User
