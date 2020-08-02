@@ -1,5 +1,8 @@
 from app import app, db
 from app.models import User
+from dotenv import load_dotenv
+
+load_dotenv('.env')
 
 
 @app.shell_context_processor
