@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block content %} {% include 'nav.html' %}
-<div class="row about">
+<div class="row faq-container how-container">
   <div class="col col--3">
-    <h4 class="number-container">1</h4>
+    <h6 class="number-container">1</h6>
     <p class="lead">Drag your PDFs directly into the box...<br /></p>
     <img
       src="{{ url_for('static', filename='images/drag_200px.gif') }}"
@@ -9,7 +9,7 @@
     />
   </div>
   <div class="col col--3">
-    <h4 class="number-container">2</h4>
+    <h6 class="number-container">2</h6>
     <p class="lead">
       We do our chopping...
     </p>
@@ -20,7 +20,7 @@
     />
   </div>
   <div class="col col--3">
-    <h4 class="number-container">3</h4>
+    <h6 class="number-container">3</h6>
     <p class="lead">
       Print the downloaded file!
     </p>
