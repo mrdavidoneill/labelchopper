@@ -49,7 +49,7 @@ def get_pdf(filename):
 
 
 @app.route('/how')
-def how_to():
+def how():
     return render_template('how.html')
 
 
