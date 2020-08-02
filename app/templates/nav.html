@@ -35,13 +35,13 @@
     </div>
     <div class="navbar-nav ml-auto">
       {% if current_user.is_authenticated %}
-      <button type="button" class="plain" onclick="logout()">
+      <button type="button" class="plain outline" onclick="logout()">
         Log out
       </button>
       {% else %}
       <button
         type="button"
-        class="plain"
+        class="plain outline"
         data-toggle="modal"
         data-target="#login-modal"
       >
