@@ -1,7 +1,8 @@
 import os
-from app import environmentvariables
 
-environmentvariables.load()
+# REMOVED due to bug crashing the web server.  Works locally and also prints secret on web server so not sure why it crashes
+# from app import environmentvariables
+# environmentvariables.load()
 
 from app import app, db
 from app.models import User
