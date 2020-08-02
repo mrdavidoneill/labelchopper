@@ -2,7 +2,7 @@ import dill
 import os
 from datetime import datetime
 from PyPDF2 import PdfFileReader, PdfFileWriter
-from PyPDF2.generic import *
+from PyPDF2.generic import createStringObject, codecs, u_
 from PyPDF2.pdf import PageObject
 
 class Label:
@@ -44,7 +44,7 @@ class Label:
         self.write_pdf()
 
     def process_page(self, page):
-        X,Y,W,H = 0,1,2,3
+        X,Y = 0,1
 
         UPS = {"coordinates": (float(page.mediaBox.upperRight[X]) * 0.045,
                                float(page.mediaBox.upperRight[Y]) * 0.09,

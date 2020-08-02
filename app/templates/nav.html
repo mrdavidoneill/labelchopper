@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <img
+    src="{{url_for('static', filename='/images/logo.png')}}"
+    alt="Logo"
+    style="width: 70px;"
+  />
+  <a class="navbar-brand brandname" href="{{ url_for('upload_file') }}"
+    >Label Chopper</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link {{ faq_active }}" href="{{ url_for('faq') }}"
+        >FAQ</a
+      >
+      <a
+        class="nav-item nav-link {{ how_active }}"
+        href="{{ url_for('how_to') }}"
+        >How it works</a
+      >
+      <a
+        class="nav-item nav-link {{ donate_active }}"
+        href="{{ url_for('donate') }}"
+        >Donate</a
+      >
+    </div>
+    <div class="navbar-nav ml-auto">
+      {% if current_user.is_authenticated %}
+      <button type="button" class="plain" onclick="logout()">
+        Log out
+      </button>
+      {% else %}
+      <button
+        type="button"
+        class="plain"
+        data-toggle="modal"
+        data-target="#login-modal"
+      >
+        Log in
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<script>
+  function logout() {
+    console.log("{{ url_for('logout') }}");
+    window.location = "{{ url_for('logout') }}";
+  }
+</script>

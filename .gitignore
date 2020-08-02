@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,flask,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,flask,visualstudiocode
 
+### output and upload folders for app ###
+output/
+upload/
+
 ### Flask ###
 instance/*
 !instance/.gitignore
@@ -72,6 +76,7 @@ db.sqlite3-journal
 
 # Flask stuff:
 instance/
+.flaskenv
 
 # Scrapy stuff:
 .scrapy

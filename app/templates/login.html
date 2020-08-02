@@ -1,0 +1,20 @@
+<form id="{{ id }}" action="{{ url_for('login') }}" method="post">
+  {{ form.hidden_tag() }}
+
+  <div class="form-group required">
+    {{ form.username(class="form-control",id="username",type="text",value="",
+    placeholder="Username") }} {% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group required">
+    {{
+    form.password(class="form-control",id="password",type="password",value="",
+    placeholder="Password") }} {% for error in form.password.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </div>
+  {{ form.submit(class="btn btn-primary btn-block") }}
+  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+</form>

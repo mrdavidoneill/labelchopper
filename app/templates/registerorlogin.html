@@ -1,0 +1,112 @@
+<div
+  class="modal fade"
+  id="login-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="login-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="plain" id="login" onclick="selectLogin()" type="button">
+          Log In
+        </button>
+        <button
+          class="plain"
+          id="register"
+          onclick="selectRegister()"
+          type="button"
+        >
+          Register
+        </button>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% with id = 'login-form', form = loginform %} {% include 'login.html'
+        %} {% endwith %} {% with id = 'register-form', form = registrationform
+        %} {% include 'register.html' %} {% endwith %}
+        <div id="alerts"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const alerts = document.querySelector("#alerts");
+    const loginForm = document.querySelector("#login-form");
+    const registrationForm = document.querySelector("#register-form");
+    const loginFormLink = document.querySelector("#login-form-link");
+    const registrationFormLink = document.querySelector("#register-form-link");
+
+    const selectLogin = () => {
+      loginForm.style.display = "block";
+      registrationForm.style.display = "none";
+    };
+
+    const selectRegister = () => {
+      loginForm.style.display = "none";
+      registrationForm.style.display = "block";
+    };
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alerts.innerHTML = "";
+      fetch("{{url_for('login')}}", {
+        method: "POST",
+        body: new FormData(loginForm),
+      })
+        .then((raw) => raw.json())
+        .then((response) => {
+          if (response.success) {
+            window.location = "{{url_for('upload_file')}}";
+          } else {
+            alerts.append(createAlert(response.error, "danger"));
+          }
+        });
+    });
+
+    registrationForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alerts.innerHTML = "";
+      fetch("{{url_for('register')}}", {
+        method: "POST",
+        body: new FormData(registrationForm),
+      })
+        .then((raw) => raw.json())
+        .then((response) => {
+          if (response.success) {
+            alerts.append(createAlert("Registration Successful! Please Login"));
+            selectLogin();
+          } else {
+            console.log(response);
+            Object.keys(response.errors).map((key) =>
+              alerts.append(createAlert(response.errors[key], "danger"))
+            );
+          }
+        });
+    });
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      modal.setAttribute("style", "display: none");
+    }
+
+    function createAlert(error, style = null) {
+      // Categories: success (green), info (blue), warning (yellow), danger (red)
+
+      const div = document.createElement("div");
+      div.classList.add("alert", `alert-${style || "primary"}`);
+      div.innerHTML = error;
+      return div;
+    }
+  </script>
+</div>

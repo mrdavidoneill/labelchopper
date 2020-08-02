@@ -1,0 +1,31 @@
+{% extends "layout.html" %} {% include 'nav.html' %} {% block content %}
+<div class="drop-container">
+  <h2 class="display-4" style="font-size: 2em;">Give FBA fees the chop!</h2>
+  <h6 class="subtitle">
+    Convert Amazon & FBA labels to thermal printer labels
+  </h6>
+  <p>
+    Drag file(s) or click to browse for file(s).
+  </p>
+  <form
+    action="{{ url_for('upload_file') }}"
+    class="dropzone file-upload"
+    id="fileupload"
+    enctype="multipart/form-data"
+    method="POST"
+  >
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+      <input type="submit" value="Convert" />
+      <input type="hidden" name="nojs" value="true" />
+    </div>
+  </form>
+  <p style="text-align: center;">
+    <em>Converted PDFs will automatically download once processed.</em>
+  </p>
+</div>
+{% include 'about.html' %} {% if current_user.is_authenticated %}
+<script src="{{ url_for('static', filename='scripts/fileupload.js') }}"></script>
+{% else %}
+<script src="{{ url_for('static', filename='scripts/blockfileupload.js') }}"></script>
+{% endif %} {% endblock %}

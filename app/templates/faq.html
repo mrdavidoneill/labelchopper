@@ -1,0 +1,13 @@
+{% extends "layout.html" %} {% block content %} {% include 'nav.html' %}
+<div class="faq-container">
+  {% for q_and_a in faq %} {% if loop.index0 % 2 == 0 %}
+  <h4 class="speechbox flickleft">{{ q_and_a.question }}</h4>
+  {% else %}
+  <h4 class="speechbox flickright">{{ q_and_a.question }}</h4>
+  {% endif %}
+  <p class="lead">
+    {{ q_and_a.answer }}
+  </p>
+  {% endfor %}
+</div>
+{% endblock %}
