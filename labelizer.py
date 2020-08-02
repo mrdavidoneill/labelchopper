@@ -1,8 +1,16 @@
+import os
+from app import environmentvariables
+
+environmentvariables.load()
+print(os.getcwd())
+print(os.environ.get('SECRET_KEY'))
+
+
 from app import app, db
 from app.models import User
-from dotenv import load_dotenv
 
-load_dotenv('.env')
+
+print(os.environ.get('SECRET_KEY'))
 
 
 @app.shell_context_processor
