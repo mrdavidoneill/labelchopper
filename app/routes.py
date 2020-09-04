@@ -44,7 +44,7 @@ def faq():
 def get_pdf(filename):
     filename += ".pdf"
     return send_from_directory(os.path.join(os.getcwd(),
-                                            app.config[UPLOAD_FOLDER]),
+                                            app.config[OUTPUT_FOLDER]),
                                filename, as_attachment=True)
 
 
