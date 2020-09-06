@@ -8,6 +8,7 @@ function initDropZone(user, progressDiv, progressContainerDiv) {
 
       this.on("processing", () => {
         socket = createProgressSocket(socket, user, progressDiv);
+        updateProgress(progressDiv, 0);
         showProgress(progressContainerDiv);
       });
 
@@ -26,11 +27,12 @@ function initDropZone(user, progressDiv, progressContainerDiv) {
 }
 
 function createProgressSocket(socket, user, progressDiv) {
-  socket = io("/progress");
+  socket = io("/progress", {transports: ["polling"]});
 
   socket.emit("start", user);
 
   socket.on("progress", function (value) {
+    console.log(value);
     updateProgress(progressDiv, value);
   });
 
@@ -39,6 +41,7 @@ function createProgressSocket(socket, user, progressDiv) {
 
 function closeProgressSocket(socket) {
   socket.emit("stop");
+  socket.disconnect(true);
 }
 
 function updateProgress(progressId, value) {
