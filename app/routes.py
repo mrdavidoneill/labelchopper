@@ -12,6 +12,7 @@ from app.constants import OUTPUT_FOLDER, UPLOAD_FOLDER
 from app.models import User
 from app.forms import LoginForm, RegistrationForm
 from app.faq import FAQ
+from app.sockets import send_progress
 
 
 # UTLIS #
@@ -74,9 +75,9 @@ def upload_file():
             file.save(path)
             output_path = os.path.join(os.getcwd(), app.config[OUTPUT_FOLDER],
                                        filename)
-
             pdf = label2pdf.Label(path=path,
-                                  output_path=output_path)
+                                  output_path=output_path,
+                                  send_progress=send_progress)
             return pdf.name
 
     return render_template("home.html")

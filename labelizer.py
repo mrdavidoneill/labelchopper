@@ -4,7 +4,7 @@ import os
 # from app import environmentvariables
 # environmentvariables.load()
 
-from app import app, db
+from app import app, db, socketio
 from app.models import User
 
 @app.shell_context_processor
@@ -14,5 +14,7 @@ def make_shell_context():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_debugger=False, use_reloader=True,
-            passthrough_errors=True)
+    # app.run(debug=True, use_debugger=False, use_reloader=True,
+    #         passthrough_errors=True)
+    socketio.run(app, host="0.0.0.0", port=5000, use_reloader=True)
+

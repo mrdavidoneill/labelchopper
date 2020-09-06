@@ -6,7 +6,7 @@ from PyPDF2.generic import createStringObject, codecs, u_
 from PyPDF2.pdf import PageObject
 
 class Label:
-    def __init__(self, path, output_path=None, target_h=6.0, target_w=4.0):
+    def __init__(self, path, send_progress=None, output_path=None, target_h=6.0, target_w=4.0):
 
         if not os.path.isfile(path):
             raise IOError("Cannot find file")
@@ -16,7 +16,8 @@ class Label:
         self.path = path
         self.pdf = PdfFileReader(str(path))
         self.pages = self.get_pages()
-
+        self.progress = 0
+        self.send_progress = send_progress
         if not output_path:
             output_path = "{}.pdf".format(datetime.now().strftime('%Y%m%d%H%M%S%f'))
 
@@ -34,13 +35,16 @@ class Label:
         else:
             rotation = 0
         page.rotateCounterClockwise(rotation)
-        
+
 
     def process_pages(self):
         self.output = []
-        for page in self.pages:
+        self.send_progress(self.progress)
+        for index, page in enumerate(self.pages):
             Label.rotate_page(page)
             self.process_page(page)
+            self.progress = float(index + 1) / len(self.pages)
+            self.send_progress(self.progress)
         self.write_pdf()
 
     def process_page(self, page):

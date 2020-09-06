@@ -8,9 +8,6 @@ upload/
 ## DB file
 *.db
 
-# Server config files
-main.fcgi
-
 ### Flask ###
 instance/*
 !instance/.gitignore
