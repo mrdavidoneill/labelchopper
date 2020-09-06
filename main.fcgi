@@ -5,4 +5,4 @@ path.insert(0, '/home/anyoneil/public_html/labelchopper/')
 from labelizer import app, socketio
 
 if __name__ == '__main__':
-    socketio(app).run()
+    socketio(run).app()
