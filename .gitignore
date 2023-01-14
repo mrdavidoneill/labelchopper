@@ -1,9 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,flask,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,flask,visualstudiocode
 
-### output and upload folders for app ###
-output/
-upload/
+### PDFs in output and upload folders ###
+output/*.pdf
+upload/*.pdf
 
 ## DB file
 *.db
